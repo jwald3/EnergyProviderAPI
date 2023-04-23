@@ -33,6 +33,10 @@ PricingTier.init(
         rate: {
             type: DataTypes.NUMERIC(5, 3),
             allowNull: false,
+            get() {
+                const value = this.getDataValue("rate");
+                return value ? parseFloat(value) : null;
+            },
         },
         days_of_week: {
             type: DataTypes.ARRAY(DataTypes.INTEGER),
