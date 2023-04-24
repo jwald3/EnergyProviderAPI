@@ -10,9 +10,9 @@ import {
 const router = Router();
 
 router.get("/", getAllPricingTiers);
-router.get("/:PricingTierID", getPricingTierById);
+router.get("/:pricing_id", getPricingTierById);
 router.post("/", createPricingTier);
-router.put("/:PricingTierID", updatePricingTier);
-router.delete("/:PricingTierID", deletePricingTier);
+router.put("/:pricing_id", updatePricingTier);
+router.delete("/:pricing_id", deletePricingTier);
 
 export default router;

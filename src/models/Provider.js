@@ -26,7 +26,7 @@ Provider.init(
     {
         sequelize,
         modelName: "Provider",
-        tableName: "Providers", // Set the table name explicitly
+        tableName: "providers",
         timestamps: false,
     }
 );

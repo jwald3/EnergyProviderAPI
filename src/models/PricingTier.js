@@ -38,19 +38,11 @@ PricingTier.init(
                 return value ? parseFloat(value) : null;
             },
         },
-        days_of_week: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
-            allowNull: false,
-        },
-        special_dates: {
-            type: DataTypes.ARRAY(DataTypes.DATE),
-            allowNull: true,
-        },
     },
     {
         sequelize,
         modelName: "PricingTier",
-        tableName: "PricingTiers", // Set the table name explicitly
+        tableName: "pricing_tiers", // Set the table name explicitly
         timestamps: false,
     }
 );
