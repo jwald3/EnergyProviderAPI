@@ -15,7 +15,7 @@ export const getProviderById = async (req, res) => {
         const provider = await Provider.findByPk(req.params.provider_id);
         if (!provider)
             return res.status(404).json({ message: "Provider not found." });
-        res.json(Provider);
+        res.json(provider);
     } catch (error) {
         console.error("Error details:", error); // Log the error details
         res.status(500).json({ message: "Error retrieving Provider." });
