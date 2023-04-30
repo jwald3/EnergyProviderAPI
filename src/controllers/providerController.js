@@ -12,7 +12,7 @@ export const getAllProviders = async (req, res) => {
 
 export const getProviderById = async (req, res) => {
     try {
-        const provider = await Provider.findByPk(req.params.ProviderID);
+        const provider = await Provider.findByPk(req.params.provider_id);
         if (!provider)
             return res.status(404).json({ message: "Provider not found." });
         res.json(Provider);
@@ -35,7 +35,7 @@ export const createProvider = async (req, res) => {
 export const updateProvider = async (req, res) => {
     try {
         const [updatedRows] = await Provider.update(req.body, {
-            where: { ProviderID: req.params.ProviderID },
+            where: { ProviderID: req.params.provider_id },
         });
 
         if (!updatedRows)
@@ -50,7 +50,7 @@ export const updateProvider = async (req, res) => {
 export const deleteProvider = async (req, res) => {
     try {
         const deletedRows = await Provider.destroy({
-            where: { ProviderID: req.params.ProviderID },
+            where: { ProviderID: req.params.provider_id },
         });
 
         if (!deletedRows)
