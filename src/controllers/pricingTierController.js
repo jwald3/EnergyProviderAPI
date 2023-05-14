@@ -3,7 +3,6 @@ import PricingTierDays from "../models/PricingTierDays.js";
 import PricingTierSpecialDates from "../models/PricingTierSpecialDates";
 import sequelize from "../utils/database.js";
 
-// Helper function to fetch pricing tier days and special dates
 const getPricingTierDetails = async (pricing_id) => {
     const pricingTierDays = await PricingTierDays.findAll({
         where: { pricing_id: pricing_id },
@@ -20,7 +19,20 @@ const getPricingTierDetails = async (pricing_id) => {
 
 export const getAllPricingTiers = async (req, res) => {
     try {
-        const pricingTiers = await PricingTier.findAll();
+        const { provider_id, region_id } = req.query;
+
+        let whereClause = {};
+
+        if (provider_id) {
+            whereClause.provider_id = provider_id;
+        }
+
+        if (region_id) {
+            whereClause.region_id = region_id;
+        }
+
+        const pricingTiers = await PricingTier.findAll({ where: whereClause });
+
         for (const pricingTier of pricingTiers) {
             const { pricingTierDays, pricingTierSpecialDates } =
                 await getPricingTierDetails(pricingTier.pricing_id);
