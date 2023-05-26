@@ -19,7 +19,7 @@ const getPricingTierDetails = async (pricing_id) => {
 
 export const getAllPricingTiers = async (req, res) => {
     try {
-        const { provider_id, region_id } = req.query;
+        const { provider_id, region_id, page, limit } = req.query;
 
         let whereClause = {};
 
@@ -31,7 +31,16 @@ export const getAllPricingTiers = async (req, res) => {
             whereClause.region_id = region_id;
         }
 
-        const pricingTiers = await PricingTier.findAll({ where: whereClause });
+        // Convert page and limit to integers and calculate offset
+        const currentPage = parseInt(page, 10) || 1;
+        const pageSize = parseInt(limit, 10) || 10;
+        const offset = (currentPage - 1) * pageSize;
+
+        const pricingTiers = await PricingTier.findAll({
+            where: whereClause,
+            offset: offset, // Skip the records before the current page
+            limit: pageSize, // Limit the records returned to the page size
+        });
 
         for (const pricingTier of pricingTiers) {
             const { pricingTierDays, pricingTierSpecialDates } =
@@ -48,6 +57,7 @@ export const getAllPricingTiers = async (req, res) => {
         res.status(500).json({ message: "Error retrieving PricingTiers" });
     }
 };
+
 
 export const getPricingTierById = async (req, res) => {
     try {
@@ -95,8 +105,9 @@ export const createPricingTier = async (req, res) => {
     } catch (error) {
         await transaction.rollback();
         console.error("Error details:", error); // Log the error details
-        res.status(500).json({ message: "Error creating PricingTier." });
+        res.status(500).json({ message: "Error creating PricingTier.", error: error.message });
     }
+    
 };
 export const updatePricingTier = async (req, res) => {
     try {
